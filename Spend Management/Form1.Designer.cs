@@ -30,123 +30,142 @@
         {
             components = new System.ComponentModel.Container();
             panelMenu = new Panel();
-            button4 = new Button();
-            button3 = new Button();
-            button2 = new Button();
-            button1 = new Button();
+            btnReport = new Button();
+            btnTarget = new Button();
+            btnStatistical = new Button();
+            btnSpend = new Button();
             btnHome = new Button();
             btnToggleMenu = new Button();
             timer1 = new System.Windows.Forms.Timer(components);
+            panelMain = new Panel();
             panelMenu.SuspendLayout();
             SuspendLayout();
             // 
             // panelMenu
             // 
-            panelMenu.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             panelMenu.BackColor = Color.FromArgb(0, 125, 197);
             panelMenu.BorderStyle = BorderStyle.FixedSingle;
-            panelMenu.Controls.Add(button4);
-            panelMenu.Controls.Add(button3);
-            panelMenu.Controls.Add(button2);
-            panelMenu.Controls.Add(button1);
+            panelMenu.Controls.Add(btnReport);
+            panelMenu.Controls.Add(btnTarget);
+            panelMenu.Controls.Add(btnStatistical);
+            panelMenu.Controls.Add(btnSpend);
             panelMenu.Controls.Add(btnHome);
             panelMenu.Controls.Add(btnToggleMenu);
+            panelMenu.Dock = DockStyle.Left;
             panelMenu.Location = new Point(0, 0);
+            panelMenu.Margin = new Padding(3, 4, 3, 4);
             panelMenu.Name = "panelMenu";
-            panelMenu.Size = new Size(220, 450);
+            panelMenu.Size = new Size(300, 583);
             panelMenu.TabIndex = 0;
             // 
-            // button4
+            // btnReport
             // 
-            button4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button4.BackColor = Color.Transparent;
-            button4.FlatAppearance.BorderSize = 0;
-            button4.FlatAppearance.MouseOverBackColor = Color.LightBlue;
-            button4.FlatStyle = FlatStyle.Flat;
-            button4.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
-            button4.ForeColor = Color.White;
-            button4.Location = new Point(-1, 255);
-            button4.Name = "button4";
-            button4.Size = new Size(220, 40);
-            button4.TabIndex = 5;
-            button4.Text = "📝　レポート";
-            button4.TextAlign = ContentAlignment.MiddleLeft;
-            button4.UseVisualStyleBackColor = false;
+            btnReport.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnReport.AutoSize = true;
+            btnReport.BackColor = Color.Transparent;
+            btnReport.FlatAppearance.BorderSize = 0;
+            btnReport.FlatAppearance.MouseOverBackColor = Color.LightBlue;
+            btnReport.FlatStyle = FlatStyle.Flat;
+            btnReport.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
+            btnReport.ForeColor = Color.White;
+            btnReport.Location = new Point(-1, 340);
+            btnReport.Margin = new Padding(3, 4, 3, 4);
+            btnReport.Name = "btnReport";
+            btnReport.Size = new Size(300, 53);
+            btnReport.TabIndex = 5;
+            btnReport.Text = "📝　レポート";
+            btnReport.TextAlign = ContentAlignment.MiddleLeft;
+            btnReport.UseVisualStyleBackColor = false;
+            btnReport.Click += btnReport_Click;
             // 
-            // button3
+            // btnTarget
             // 
-            button3.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button3.BackColor = Color.Transparent;
-            button3.FlatAppearance.BorderSize = 0;
-            button3.FlatAppearance.MouseOverBackColor = Color.LightBlue;
-            button3.FlatStyle = FlatStyle.Flat;
-            button3.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
-            button3.ForeColor = Color.White;
-            button3.Location = new Point(-1, 207);
-            button3.Name = "button3";
-            button3.Size = new Size(220, 40);
-            button3.TabIndex = 4;
-            button3.Text = "🎯　目標";
-            button3.TextAlign = ContentAlignment.MiddleLeft;
-            button3.UseVisualStyleBackColor = false;
+            btnTarget.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnTarget.AutoSize = true;
+            btnTarget.BackColor = Color.Transparent;
+            btnTarget.FlatAppearance.BorderSize = 0;
+            btnTarget.FlatAppearance.MouseOverBackColor = Color.LightBlue;
+            btnTarget.FlatStyle = FlatStyle.Flat;
+            btnTarget.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
+            btnTarget.ForeColor = Color.White;
+            btnTarget.Location = new Point(-1, 276);
+            btnTarget.Margin = new Padding(3, 4, 3, 4);
+            btnTarget.Name = "btnTarget";
+            btnTarget.Size = new Size(300, 53);
+            btnTarget.TabIndex = 4;
+            btnTarget.Text = "🎯　目標";
+            btnTarget.TextAlign = ContentAlignment.MiddleLeft;
+            btnTarget.UseVisualStyleBackColor = false;
+            btnTarget.Click += btnTarget_Click;
             // 
-            // button2
+            // btnStatistical
             // 
-            button2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button2.BackColor = Color.Transparent;
-            button2.FlatAppearance.BorderSize = 0;
-            button2.FlatAppearance.MouseOverBackColor = Color.LightBlue;
-            button2.FlatStyle = FlatStyle.Flat;
-            button2.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
-            button2.ForeColor = Color.White;
-            button2.Location = new Point(-1, 160);
-            button2.Name = "button2";
-            button2.Size = new Size(220, 40);
-            button2.TabIndex = 3;
-            button2.Text = "📊　統計";
-            button2.TextAlign = ContentAlignment.MiddleLeft;
-            button2.UseVisualStyleBackColor = false;
+            btnStatistical.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnStatistical.AutoSize = true;
+            btnStatistical.BackColor = Color.Transparent;
+            btnStatistical.FlatAppearance.BorderSize = 0;
+            btnStatistical.FlatAppearance.MouseOverBackColor = Color.LightBlue;
+            btnStatistical.FlatStyle = FlatStyle.Flat;
+            btnStatistical.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
+            btnStatistical.ForeColor = Color.White;
+            btnStatistical.Location = new Point(-1, 213);
+            btnStatistical.Margin = new Padding(3, 4, 3, 4);
+            btnStatistical.Name = "btnStatistical";
+            btnStatistical.Size = new Size(300, 53);
+            btnStatistical.TabIndex = 3;
+            btnStatistical.Text = "📊　統計";
+            btnStatistical.TextAlign = ContentAlignment.MiddleLeft;
+            btnStatistical.UseVisualStyleBackColor = false;
+            btnStatistical.Click += btnStatistical_Click;
             // 
-            // button1
+            // btnSpend
             // 
-            button1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            button1.BackColor = Color.Transparent;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatAppearance.MouseOverBackColor = Color.LightBlue;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(-1, 113);
-            button1.Name = "button1";
-            button1.Size = new Size(220, 40);
-            button1.TabIndex = 2;
-            button1.Text = "💰　収支記録";
-            button1.TextAlign = ContentAlignment.MiddleLeft;
-            button1.UseVisualStyleBackColor = false;
+            btnSpend.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnSpend.AutoSize = true;
+            btnSpend.BackColor = Color.Transparent;
+            btnSpend.FlatAppearance.BorderSize = 0;
+            btnSpend.FlatAppearance.MouseOverBackColor = Color.LightBlue;
+            btnSpend.FlatStyle = FlatStyle.Flat;
+            btnSpend.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
+            btnSpend.ForeColor = Color.White;
+            btnSpend.Location = new Point(-1, 151);
+            btnSpend.Margin = new Padding(3, 4, 3, 4);
+            btnSpend.Name = "btnSpend";
+            btnSpend.Size = new Size(300, 53);
+            btnSpend.TabIndex = 2;
+            btnSpend.Text = "💰　支出";
+            btnSpend.TextAlign = ContentAlignment.MiddleLeft;
+            btnSpend.UseVisualStyleBackColor = false;
+            btnSpend.Click += btnSpend_Click;
             // 
             // btnHome
             // 
             btnHome.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            btnHome.AutoSize = true;
             btnHome.BackColor = Color.Transparent;
             btnHome.FlatAppearance.BorderSize = 0;
             btnHome.FlatAppearance.MouseOverBackColor = Color.LightBlue;
             btnHome.FlatStyle = FlatStyle.Flat;
             btnHome.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnHome.ForeColor = Color.White;
-            btnHome.Location = new Point(-1, 65);
+            btnHome.Location = new Point(-1, 87);
+            btnHome.Margin = new Padding(3, 4, 3, 4);
             btnHome.Name = "btnHome";
-            btnHome.Size = new Size(220, 40);
+            btnHome.Size = new Size(300, 53);
             btnHome.TabIndex = 1;
             btnHome.TabStop = false;
             btnHome.Text = "🏠　ホーム";
             btnHome.TextAlign = ContentAlignment.MiddleLeft;
             btnHome.UseVisualStyleBackColor = false;
+            btnHome.Click += btnHome_Click;
             // 
             // btnToggleMenu
             // 
-            btnToggleMenu.Location = new Point(4, 6);
+            btnToggleMenu.AutoSize = true;
+            btnToggleMenu.Location = new Point(5, 8);
+            btnToggleMenu.Margin = new Padding(3, 4, 3, 4);
             btnToggleMenu.Name = "btnToggleMenu";
-            btnToggleMenu.Size = new Size(28, 28);
+            btnToggleMenu.Size = new Size(32, 37);
             btnToggleMenu.TabIndex = 0;
             btnToggleMenu.Text = "☰";
             btnToggleMenu.UseVisualStyleBackColor = true;
@@ -157,17 +176,31 @@
             timer1.Interval = 10;
             timer1.Tick += timer1_Tick;
             // 
+            // panelMain
+            // 
+            panelMain.AutoSize = true;
+            panelMain.Dock = DockStyle.Fill;
+            panelMain.Location = new Point(300, 0);
+            panelMain.Name = "panelMain";
+            panelMain.Size = new Size(733, 583);
+            panelMain.TabIndex = 1;
+            // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnHome;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1033, 583);
+            Controls.Add(panelMain);
             Controls.Add(panelMenu);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "Form1";
             Text = "Form1";
+            Load += Form1_Load;
             panelMenu.ResumeLayout(false);
+            panelMenu.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -176,9 +209,10 @@
         private Button btnToggleMenu;
         private System.Windows.Forms.Timer timer1;
         private Button btnHome;
-        private Button button4;
-        private Button button3;
-        private Button button2;
-        private Button button1;
+        private Button btnTarget;
+        private Button btnStatistical;
+        private Button btnSpend;
+        private Button btnReport;
+        private Panel panelMain;
     }
 }
