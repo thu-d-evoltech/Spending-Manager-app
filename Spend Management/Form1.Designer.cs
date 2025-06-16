@@ -53,9 +53,8 @@
             panelMenu.Controls.Add(btnToggleMenu);
             panelMenu.Dock = DockStyle.Left;
             panelMenu.Location = new Point(0, 0);
-            panelMenu.Margin = new Padding(3, 4, 3, 4);
             panelMenu.Name = "panelMenu";
-            panelMenu.Size = new Size(300, 583);
+            panelMenu.Size = new Size(210, 531);
             panelMenu.TabIndex = 0;
             // 
             // btnReport
@@ -68,10 +67,9 @@
             btnReport.FlatStyle = FlatStyle.Flat;
             btnReport.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnReport.ForeColor = Color.White;
-            btnReport.Location = new Point(-1, 340);
-            btnReport.Margin = new Padding(3, 4, 3, 4);
+            btnReport.Location = new Point(-1, 255);
             btnReport.Name = "btnReport";
-            btnReport.Size = new Size(300, 53);
+            btnReport.Size = new Size(206, 40);
             btnReport.TabIndex = 5;
             btnReport.Text = "📝　レポート";
             btnReport.TextAlign = ContentAlignment.MiddleLeft;
@@ -88,10 +86,9 @@
             btnTarget.FlatStyle = FlatStyle.Flat;
             btnTarget.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnTarget.ForeColor = Color.White;
-            btnTarget.Location = new Point(-1, 276);
-            btnTarget.Margin = new Padding(3, 4, 3, 4);
+            btnTarget.Location = new Point(-1, 207);
             btnTarget.Name = "btnTarget";
-            btnTarget.Size = new Size(300, 53);
+            btnTarget.Size = new Size(206, 40);
             btnTarget.TabIndex = 4;
             btnTarget.Text = "🎯　目標";
             btnTarget.TextAlign = ContentAlignment.MiddleLeft;
@@ -108,10 +105,9 @@
             btnStatistical.FlatStyle = FlatStyle.Flat;
             btnStatistical.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnStatistical.ForeColor = Color.White;
-            btnStatistical.Location = new Point(-1, 213);
-            btnStatistical.Margin = new Padding(3, 4, 3, 4);
+            btnStatistical.Location = new Point(-1, 160);
             btnStatistical.Name = "btnStatistical";
-            btnStatistical.Size = new Size(300, 53);
+            btnStatistical.Size = new Size(206, 40);
             btnStatistical.TabIndex = 3;
             btnStatistical.Text = "📊　統計";
             btnStatistical.TextAlign = ContentAlignment.MiddleLeft;
@@ -128,10 +124,9 @@
             btnSpend.FlatStyle = FlatStyle.Flat;
             btnSpend.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnSpend.ForeColor = Color.White;
-            btnSpend.Location = new Point(-1, 151);
-            btnSpend.Margin = new Padding(3, 4, 3, 4);
+            btnSpend.Location = new Point(-1, 113);
             btnSpend.Name = "btnSpend";
-            btnSpend.Size = new Size(300, 53);
+            btnSpend.Size = new Size(206, 40);
             btnSpend.TabIndex = 2;
             btnSpend.Text = "💰　支出";
             btnSpend.TextAlign = ContentAlignment.MiddleLeft;
@@ -148,10 +143,9 @@
             btnHome.FlatStyle = FlatStyle.Flat;
             btnHome.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnHome.ForeColor = Color.White;
-            btnHome.Location = new Point(-1, 87);
-            btnHome.Margin = new Padding(3, 4, 3, 4);
+            btnHome.Location = new Point(-1, 65);
             btnHome.Name = "btnHome";
-            btnHome.Size = new Size(300, 53);
+            btnHome.Size = new Size(206, 40);
             btnHome.TabIndex = 1;
             btnHome.TabStop = false;
             btnHome.Text = "🏠　ホーム";
@@ -162,10 +156,9 @@
             // btnToggleMenu
             // 
             btnToggleMenu.AutoSize = true;
-            btnToggleMenu.Location = new Point(5, 8);
-            btnToggleMenu.Margin = new Padding(3, 4, 3, 4);
+            btnToggleMenu.Location = new Point(4, 6);
             btnToggleMenu.Name = "btnToggleMenu";
-            btnToggleMenu.Size = new Size(32, 37);
+            btnToggleMenu.Size = new Size(28, 28);
             btnToggleMenu.TabIndex = 0;
             btnToggleMenu.Text = "☰";
             btnToggleMenu.UseVisualStyleBackColor = true;
@@ -180,20 +173,22 @@
             // 
             panelMain.AutoSize = true;
             panelMain.Dock = DockStyle.Fill;
-            panelMain.Location = new Point(300, 0);
+            panelMain.Location = new Point(210, 0);
+            panelMain.Margin = new Padding(3, 2, 3, 2);
             panelMain.Name = "panelMain";
-            panelMain.Size = new Size(733, 583);
+            panelMain.Size = new Size(694, 531);
             panelMain.TabIndex = 1;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             CancelButton = btnHome;
-            ClientSize = new Size(1033, 583);
+            ClientSize = new Size(904, 531);
             Controls.Add(panelMain);
             Controls.Add(panelMenu);
-            Margin = new Padding(3, 4, 3, 4);
+            MaximumSize = new Size(920, 570);
+            MinimumSize = new Size(920, 570);
             Name = "Form1";
             Text = "Form1";
             Load += Form1_Load;
