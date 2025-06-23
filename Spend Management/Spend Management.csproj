@@ -11,7 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="LiveCharts.WinForms" Version="0.9.7.1" />
-    <PackageReference Include="System.Data.SQLite" Version="1.0.119" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
   </ItemGroup>
 
   <ItemGroup>

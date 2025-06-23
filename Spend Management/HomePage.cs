@@ -1,6 +1,4 @@
-﻿
-
-namespace Spend_Management
+﻿namespace Spend_Management
 {
     public partial class HomePage : UserControl
     {
