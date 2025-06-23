@@ -1,6 +1,6 @@
 ﻿namespace Spend_Management
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         ///  Required designer variable.
@@ -30,9 +30,9 @@
         {
             components = new System.ComponentModel.Container();
             panelMenu = new Panel();
+            btnLogout = new Label();
             btnReport = new Button();
             btnTarget = new Button();
-            btnStatistical = new Button();
             btnSpend = new Button();
             btnHome = new Button();
             btnToggleMenu = new Button();
@@ -45,9 +45,9 @@
             // 
             panelMenu.BackColor = Color.FromArgb(0, 125, 197);
             panelMenu.BorderStyle = BorderStyle.FixedSingle;
+            panelMenu.Controls.Add(btnLogout);
             panelMenu.Controls.Add(btnReport);
             panelMenu.Controls.Add(btnTarget);
-            panelMenu.Controls.Add(btnStatistical);
             panelMenu.Controls.Add(btnSpend);
             panelMenu.Controls.Add(btnHome);
             panelMenu.Controls.Add(btnToggleMenu);
@@ -56,6 +56,18 @@
             panelMenu.Name = "panelMenu";
             panelMenu.Size = new Size(210, 531);
             panelMenu.TabIndex = 0;
+            // 
+            // btnLogout
+            // 
+            btnLogout.AutoSize = true;
+            btnLogout.Font = new Font("游ゴシック", 12F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 128);
+            btnLogout.ForeColor = Color.White;
+            btnLogout.Location = new Point(102, 483);
+            btnLogout.Name = "btnLogout";
+            btnLogout.Size = new Size(90, 21);
+            btnLogout.TabIndex = 6;
+            btnLogout.Text = "ログアウト";
+            btnLogout.Click += btnLogout_Click;
             // 
             // btnReport
             // 
@@ -67,7 +79,7 @@
             btnReport.FlatStyle = FlatStyle.Flat;
             btnReport.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnReport.ForeColor = Color.White;
-            btnReport.Location = new Point(-1, 255);
+            btnReport.Location = new Point(-3, 203);
             btnReport.Name = "btnReport";
             btnReport.Size = new Size(206, 40);
             btnReport.TabIndex = 5;
@@ -86,7 +98,7 @@
             btnTarget.FlatStyle = FlatStyle.Flat;
             btnTarget.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnTarget.ForeColor = Color.White;
-            btnTarget.Location = new Point(-1, 207);
+            btnTarget.Location = new Point(-1, 111);
             btnTarget.Name = "btnTarget";
             btnTarget.Size = new Size(206, 40);
             btnTarget.TabIndex = 4;
@@ -94,25 +106,6 @@
             btnTarget.TextAlign = ContentAlignment.MiddleLeft;
             btnTarget.UseVisualStyleBackColor = false;
             btnTarget.Click += btnTarget_Click;
-            // 
-            // btnStatistical
-            // 
-            btnStatistical.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            btnStatistical.AutoSize = true;
-            btnStatistical.BackColor = Color.Transparent;
-            btnStatistical.FlatAppearance.BorderSize = 0;
-            btnStatistical.FlatAppearance.MouseOverBackColor = Color.LightBlue;
-            btnStatistical.FlatStyle = FlatStyle.Flat;
-            btnStatistical.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
-            btnStatistical.ForeColor = Color.White;
-            btnStatistical.Location = new Point(-1, 160);
-            btnStatistical.Name = "btnStatistical";
-            btnStatistical.Size = new Size(206, 40);
-            btnStatistical.TabIndex = 3;
-            btnStatistical.Text = "📊　統計";
-            btnStatistical.TextAlign = ContentAlignment.MiddleLeft;
-            btnStatistical.UseVisualStyleBackColor = false;
-            btnStatistical.Click += btnStatistical_Click;
             // 
             // btnSpend
             // 
@@ -124,7 +117,7 @@
             btnSpend.FlatStyle = FlatStyle.Flat;
             btnSpend.Font = new Font("Yu Gothic UI Semibold", 12F, FontStyle.Bold, GraphicsUnit.Point, 128);
             btnSpend.ForeColor = Color.White;
-            btnSpend.Location = new Point(-1, 113);
+            btnSpend.Location = new Point(-1, 157);
             btnSpend.Name = "btnSpend";
             btnSpend.Size = new Size(206, 40);
             btnSpend.TabIndex = 2;
@@ -172,6 +165,7 @@
             // panelMain
             // 
             panelMain.AutoSize = true;
+            panelMain.BackColor = SystemColors.Window;
             panelMain.Dock = DockStyle.Fill;
             panelMain.Location = new Point(210, 0);
             panelMain.Margin = new Padding(3, 2, 3, 2);
@@ -179,7 +173,7 @@
             panelMain.Size = new Size(694, 531);
             panelMain.TabIndex = 1;
             // 
-            // Form1
+            // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -189,9 +183,9 @@
             Controls.Add(panelMenu);
             MaximumSize = new Size(920, 570);
             MinimumSize = new Size(920, 570);
-            Name = "Form1";
+            Name = "MainForm";
             Text = "Form1";
-            Load += Form1_Load;
+            Load += MainForm_Load;
             panelMenu.ResumeLayout(false);
             panelMenu.PerformLayout();
             ResumeLayout(false);
@@ -205,9 +199,9 @@
         private System.Windows.Forms.Timer timer1;
         private Button btnHome;
         private Button btnTarget;
-        private Button btnStatistical;
         private Button btnSpend;
         private Button btnReport;
         private Panel panelMain;
+        private Label btnLogout;
     }
 }

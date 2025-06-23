@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Spend_Management
 {
-    public partial class AddItemForm : Form
+    public partial class LoginForm : Form
     {
-        public string CategoryName { get; set; }
-        public AddItemForm()
+
+        public LoginForm()
         {
             InitializeComponent();
+            LoadPage(new LoginControl());
         }
 
-        private void btnOK_Click(object sender, EventArgs e)
+        public void LoadPage(UserControl uc)
         {
-            CategoryName = textBoxCategory.Text;
-            DialogResult = DialogResult.OK;
-            this.Close();
+            mainPanel.Controls.Clear();
+            mainPanel.Controls.Add(uc);
         }
     }
 }
