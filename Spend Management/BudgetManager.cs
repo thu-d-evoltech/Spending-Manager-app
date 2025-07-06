@@ -25,8 +25,11 @@ namespace Spend_Management
                 CREATE TABLE IF NOT EXISTS Expenses (
                     Id INTEGER PRIMARY KEY AUTOINCREMENT,
                     UserId INTEGER NOT NULL,
+                    Date TEXT,
                     Name TEXT NOT NULL,
                     Amount REAL NOT NULL,
+                    Type TEXT,
+                    Note TEXT,
                     FOREIGN KEY (UserId) REFERENCES users(id)
                 );";
 
