@@ -5,73 +5,40 @@ namespace Spend_Management
     /// <summary>
     /// 
     /// </summary>
-    public class BudgetManager
+    public class TargetSetting
     {
         private string connectionString;
         /// <summary>
         /// 
         /// </summary>
-        public BudgetManager(string dbPath)
+        public TargetSetting(string dbPath)
         {
-            connectionString = dbPath;
+            connectionString = $"Data Source={dbPath};Version=3;";
         }
-
-        public void InitializeDatabase()
+        public void SaveTargetSettings(int userId, decimal income, decimal saving, decimal spending)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string createExpensesTable = @"
-                CREATE TABLE IF NOT EXISTS Expenses (
-                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    UserId INTEGER NOT NULL,
-                    Date TEXT,
-                    Name TEXT NOT NULL,
-                    Amount REAL NOT NULL,
-                    Type TEXT,
-                    Note TEXT,
-                    FOREIGN KEY (UserId) REFERENCES users(id)
-                );";
-
-            string createBudgetSettingsTable = @"
-                CREATE TABLE IF NOT EXISTS BudgetSettings (
-                    UserId INTEGER PRIMARY KEY,
-                    Income REAL NOT NULL,
-                    Saving REAL NOT NULL,
-                    FOREIGN KEY (UserId) REFERENCES users(id)
-                );";
-
-            using var cmd1 = new SQLiteCommand(createExpensesTable, connection);
-            using var cmd2 = new SQLiteCommand(createBudgetSettingsTable, connection);
-
-            cmd1.ExecuteNonQuery();
-            cmd2.ExecuteNonQuery();
-
-            // Thêm bản ghi mặc định nếu chưa có
-            string insertDefault = @"
-            INSERT OR IGNORE INTO BudgetSettings (UserId, Income, Saving) VALUES (1, 0, 0);";
-            using var cmd3 = new SQLiteCommand(insertDefault, connection);
-            cmd3.ExecuteNonQuery();
-        }
-
-        public void SaveBudgetSettings(int userId, decimal income, decimal saving)
-        {
-            using var connection = new SQLiteConnection(connectionString);
-            connection.Open();
+            string currentMonth = DateTime.Now.ToString("yyyy-MM");
 
             string upsert = @"
-            INSERT INTO BudgetSettings (UserId, Income, Saving)
-            VALUES (@userId, @income, @saving)
-            ON CONFLICT(UserId) DO UPDATE SET Income = @income, Saving = @saving;";
+            INSERT INTO FinancialGoals (UserId, Month, Income, SavingTarget, SpendingAvailable)
+            VALUES (@userId, @month, @income, @saving, @spending)
+            ON CONFLICT(UserId, Month) DO UPDATE SET Income = @income, Saving = @saving, SpendingAvailable = @spending;";
 
             using var cmd = new SQLiteCommand(upsert, connection);
+
             cmd.Parameters.AddWithValue("@userId", userId);
+            cmd.Parameters.AddWithValue("@month", currentMonth);
             cmd.Parameters.AddWithValue("@income", income);
             cmd.Parameters.AddWithValue("@saving", saving);
+            cmd.Parameters.AddWithValue("@spending", spending);
+
             cmd.ExecuteNonQuery();
         }
 
-        public (decimal income, decimal saving) ReadBudgetSettings(int userId)
+        public (decimal income, decimal saving) ReadTargetSettings(int userId)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
@@ -93,10 +60,10 @@ namespace Spend_Management
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string insert = "INSERT INTO Expenses (UserId, Name, Amount) VALUES (@userId, @name, @amount);";
+            string insert = "INSERT INTO Expenses (UserId, Category, Amount) VALUES (@userId, @category, @amount);";
             using var cmd = new SQLiteCommand(insert, connection);
             cmd.Parameters.AddWithValue("@userId", expenseItem.UserId);
-            cmd.Parameters.AddWithValue("@name", expenseItem.Name);
+            cmd.Parameters.AddWithValue("@name", expenseItem.Category);
             cmd.Parameters.AddWithValue("@amount", expenseItem.Amount);
             cmd.ExecuteNonQuery();
         }
@@ -106,9 +73,9 @@ namespace Spend_Management
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string update = "UPDATE Expenses SET Name = @name, Amount = @amount WHERE Id = @id AND UserId = @userId;";
+            string update = "UPDATE Expenses SET Category = @category, Amount = @amount WHERE Id = @id AND UserId = @userId;";
             using var cmd = new SQLiteCommand(update, connection);
-            cmd.Parameters.AddWithValue("@name", expenseItem.Name);
+            cmd.Parameters.AddWithValue("@name", expenseItem.Category);
             cmd.Parameters.AddWithValue("@amount", expenseItem.Amount);
             cmd.Parameters.AddWithValue("@id", expenseItem.Id);
             cmd.Parameters.AddWithValue("@userId", expenseItem.UserId);
@@ -134,7 +101,7 @@ namespace Spend_Management
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string select = "SELECT Id, Name, Amount FROM Expenses WHERE UserId = @userId;";
+            string select = "SELECT Id, Category, Amount FROM Expenses WHERE UserId = @userId;";
             using var cmd = new SQLiteCommand(select, connection);
             cmd.Parameters.AddWithValue("@userId", userId);
             using var reader = cmd.ExecuteReader();
@@ -144,7 +111,7 @@ namespace Spend_Management
                 list.Add(new ExpenseItem
                 {
                     Id = Convert.ToInt32(reader[0]),
-                    Name = reader[1].ToString(),
+                    Category = reader[1].ToString(),
                     Amount = (decimal)(double)reader[2],
                     UserId = userId
                 });;
@@ -156,12 +123,10 @@ namespace Spend_Management
 
     public class ExpenseItem
     {
-        public int Id { get; set; }
+        public int BudgetId { get; set; }
         public int UserId { get; set; }
-        public string Name { get; set; }
+        public int CategoryId { get; set; }
+        public string Month { get; set; }
         public decimal Amount { get; set; }
     }
 }
-
-
-

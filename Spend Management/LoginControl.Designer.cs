@@ -73,7 +73,7 @@
             // 
             btnRegister.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             btnRegister.ForeColor = Color.Blue;
-            btnRegister.Location = new Point(105, 236);
+            btnRegister.Location = new Point(218, 232);
             btnRegister.Name = "btnRegister";
             btnRegister.Size = new Size(115, 30);
             btnRegister.TabIndex = 8;
@@ -133,7 +133,7 @@
             btnLogin.FlatAppearance.MouseOverBackColor = Color.FromArgb(192, 255, 255);
             btnLogin.Font = new Font("メイリオ", 9.75F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 128);
             btnLogin.ForeColor = Color.White;
-            btnLogin.Location = new Point(93, 176);
+            btnLogin.Location = new Point(93, 171);
             btnLogin.Name = "btnLogin";
             btnLogin.Size = new Size(146, 43);
             btnLogin.TabIndex = 3;

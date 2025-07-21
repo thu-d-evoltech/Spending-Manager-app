@@ -62,7 +62,7 @@ namespace Spend_Management
             var expenses = budgetManager.GetAllExpenses(currentUserId);
             foreach (var expense in expenses)
             {
-                var item = new ListViewItem(expense.Name);
+                var item = new ListViewItem(expense.Category);
                 item.SubItems.Add(expense.Amount.ToString("N0"));
                 item.Tag = expense;
                 listViewExpense.Items.Add(item);
@@ -72,7 +72,7 @@ namespace Spend_Management
 
         private void btnAddItem_Click(object sender, EventArgs e)
         {
-            if (!decimal.TryParse(txtExpenseAmount.Text, out decimal amount) || string.IsNullOrWhiteSpace(txtExpenseName.Text))
+            if (!decimal.TryParse(txtExpenseAmount.Text, out decimal amount) || string.IsNullOrWhiteSpace(txtExpenseCategory.Text))
             {
                 MessageBox.Show("経費名と有効な金額を入力してください。");
                 return;
@@ -80,7 +80,7 @@ namespace Spend_Management
 
             var expense = new ExpenseItem
             {
-                Name = txtExpenseName.Text,
+                Category = txtExpenseCategory.Text,
                 Amount = amount,
                 UserId = currentUserId,
             };
@@ -88,7 +88,7 @@ namespace Spend_Management
             budgetManager.AddExpense(expense);
             LoadExpenses();
 
-            txtExpenseName.Clear();
+            txtExpenseCategory.Clear();
             txtExpenseAmount.Clear();
         }
 
@@ -106,13 +106,13 @@ namespace Spend_Management
                 return;
             }
 
-            txtExpenseName.Text = oldName;
+            txtExpenseCategory.Text = oldName;
             expense.Amount = newAmount;
 
             budgetManager.UpdateExpense(expense);
             LoadExpenses();
 
-            txtExpenseName.Clear();
+            txtExpenseCategory.Clear();
             txtExpenseAmount.Clear();
         }
 

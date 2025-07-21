@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SQLite;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data.SQLite;
 
 namespace Spend_Management
 {
@@ -24,7 +15,7 @@ namespace Spend_Management
 
         private void InitDatabase()
         {
-            connection = new SQLiteConnection("Data Source=chi_tieu.db;Version=3;");
+            connection = new SQLiteConnection("Data Source=spend_data.db;Version=3;");
             connection.Open();
 
             string createUserTable = @"

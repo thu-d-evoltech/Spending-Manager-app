@@ -31,7 +31,7 @@
             listViewSpending.Items.Clear();
             foreach (var expense in expenses)
             {
-                var item = new ListViewItem(expense.Name);
+                var item = new ListViewItem(expense.Category);
                 item.SubItems.Add(expense.Amount.ToString("N0"));
                 item.Tag = expense;
                 listViewSpending.Items.Add(item);

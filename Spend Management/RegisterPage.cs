@@ -21,7 +21,7 @@ namespace Spend_Management
             }
 
             //Kết nối và sử dụng Database
-            using (var connection = new SQLiteConnection("Data Source=chi_tieu.db;Version=3;"))
+            using (var connection = new SQLiteConnection("Data Source=spend_data.db;Version=3;"))
             {
                 connection.Open();
 
@@ -35,10 +35,10 @@ namespace Spend_Management
                     MessageBox.Show("このユーザーIDは既に存在しています。", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
                 else if (txtPassword.Text != txtPasswordConfirm.Text)
-                    {
-                        MessageBox.Show("Mật khẩu xác nhận không khớp.", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                        return;
-                    }
+                {
+                    MessageBox.Show("Mật khẩu xác nhận không khớp.", "エラー", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 else
                 {
                     string insert = "INSERT INTO users (username, password) VALUES (@user, @pass);";
@@ -54,6 +54,12 @@ namespace Spend_Management
                     loginForm.LoadPage(new LoginControl());
                 }
             }
+        }
+
+        private void BtnBackToLogin_Click(object sender, EventArgs e)
+        {
+            LoginForm loginForm = (LoginForm)this.FindForm();
+            loginForm.LoadPage(new LoginControl());
         }
     }
 }

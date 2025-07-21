@@ -30,18 +30,20 @@
         {
             label1 = new Label();
             panel3 = new Panel();
-            radioButton2 = new RadioButton();
-            radioButton1 = new RadioButton();
-            textBox3 = new TextBox();
+            rdoExpense = new RadioButton();
+            rdoIncome = new RadioButton();
+            txtNote = new TextBox();
             label4 = new Label();
-            button1 = new Button();
+            BtnOK = new Button();
             label3 = new Label();
             dateTimePicker1 = new DateTimePicker();
             label2 = new Label();
-            textBox2 = new TextBox();
+            txtAmount = new TextBox();
             label5 = new Label();
-            flowExpenseName = new FlowLayoutPanel();
+            flpCategory = new FlowLayoutPanel();
+            fileSystemWatcher1 = new FileSystemWatcher();
             panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -56,46 +58,46 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(radioButton2);
-            panel3.Controls.Add(radioButton1);
+            panel3.Controls.Add(rdoExpense);
+            panel3.Controls.Add(rdoIncome);
             panel3.Location = new Point(75, 97);
             panel3.Name = "panel3";
             panel3.Size = new Size(185, 74);
             panel3.TabIndex = 38;
             // 
-            // radioButton2
+            // rdoExpense
             // 
-            radioButton2.AutoSize = true;
-            radioButton2.Font = new Font("Yu Gothic UI", 12F);
-            radioButton2.Location = new Point(18, 36);
-            radioButton2.Name = "radioButton2";
-            radioButton2.Size = new Size(60, 25);
-            radioButton2.TabIndex = 1;
-            radioButton2.TabStop = true;
-            radioButton2.Text = "出金";
-            radioButton2.UseVisualStyleBackColor = true;
+            rdoExpense.AutoSize = true;
+            rdoExpense.Font = new Font("Yu Gothic UI", 12F);
+            rdoExpense.Location = new Point(18, 36);
+            rdoExpense.Name = "rdoExpense";
+            rdoExpense.Size = new Size(60, 25);
+            rdoExpense.TabIndex = 1;
+            rdoExpense.TabStop = true;
+            rdoExpense.Text = "出金";
+            rdoExpense.UseVisualStyleBackColor = true;
             // 
-            // radioButton1
+            // rdoIncome
             // 
-            radioButton1.AutoSize = true;
-            radioButton1.Font = new Font("Yu Gothic UI", 12F);
-            radioButton1.Location = new Point(18, 11);
-            radioButton1.Name = "radioButton1";
-            radioButton1.Size = new Size(60, 25);
-            radioButton1.TabIndex = 0;
-            radioButton1.TabStop = true;
-            radioButton1.Text = "入金";
-            radioButton1.UseVisualStyleBackColor = true;
+            rdoIncome.AutoSize = true;
+            rdoIncome.Font = new Font("Yu Gothic UI", 12F);
+            rdoIncome.Location = new Point(18, 11);
+            rdoIncome.Name = "rdoIncome";
+            rdoIncome.Size = new Size(60, 25);
+            rdoIncome.TabIndex = 0;
+            rdoIncome.TabStop = true;
+            rdoIncome.Text = "入金";
+            rdoIncome.UseVisualStyleBackColor = true;
             // 
-            // textBox3
+            // txtNote
             // 
-            textBox3.BorderStyle = BorderStyle.FixedSingle;
-            textBox3.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            textBox3.Location = new Point(405, 309);
-            textBox3.Margin = new Padding(3, 2, 3, 2);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(210, 29);
-            textBox3.TabIndex = 36;
+            txtNote.BorderStyle = BorderStyle.FixedSingle;
+            txtNote.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            txtNote.Location = new Point(405, 309);
+            txtNote.Margin = new Padding(3, 2, 3, 2);
+            txtNote.Name = "txtNote";
+            txtNote.Size = new Size(210, 29);
+            txtNote.TabIndex = 36;
             // 
             // label4
             // 
@@ -107,15 +109,16 @@
             label4.TabIndex = 35;
             label4.Text = "注記";
             // 
-            // button1
+            // BtnOK
             // 
-            button1.Location = new Point(522, 390);
-            button1.Margin = new Padding(3, 2, 3, 2);
-            button1.Name = "button1";
-            button1.Size = new Size(93, 34);
-            button1.TabIndex = 34;
-            button1.Text = "OK";
-            button1.UseVisualStyleBackColor = true;
+            BtnOK.Location = new Point(522, 390);
+            BtnOK.Margin = new Padding(3, 2, 3, 2);
+            BtnOK.Name = "BtnOK";
+            BtnOK.Size = new Size(93, 34);
+            BtnOK.TabIndex = 34;
+            BtnOK.Text = "OK";
+            BtnOK.UseVisualStyleBackColor = true;
+            BtnOK.Click += BtnOK_Click;
             // 
             // label3
             // 
@@ -146,15 +149,15 @@
             label2.TabIndex = 31;
             label2.Text = "金額";
             // 
-            // textBox2
+            // txtAmount
             // 
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            textBox2.Location = new Point(405, 142);
-            textBox2.Margin = new Padding(3, 2, 3, 2);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(210, 29);
-            textBox2.TabIndex = 30;
+            txtAmount.BorderStyle = BorderStyle.FixedSingle;
+            txtAmount.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            txtAmount.Location = new Point(405, 142);
+            txtAmount.Margin = new Padding(3, 2, 3, 2);
+            txtAmount.Name = "txtAmount";
+            txtAmount.Size = new Size(210, 29);
+            txtAmount.TabIndex = 30;
             // 
             // label5
             // 
@@ -164,36 +167,43 @@
             label5.Size = new Size(0, 15);
             label5.TabIndex = 40;
             // 
-            // flowExpenseName
+            // flpCategory
             // 
-            flowExpenseName.AutoScroll = true;
-            flowExpenseName.BorderStyle = BorderStyle.FixedSingle;
-            flowExpenseName.FlowDirection = FlowDirection.TopDown;
-            flowExpenseName.Location = new Point(75, 230);
-            flowExpenseName.Name = "flowExpenseName";
-            flowExpenseName.Size = new Size(185, 229);
-            flowExpenseName.TabIndex = 41;
+            flpCategory.AutoScroll = true;
+            flpCategory.BorderStyle = BorderStyle.FixedSingle;
+            flpCategory.FlowDirection = FlowDirection.TopDown;
+            flpCategory.Font = new Font("Yu Gothic UI", 12F);
+            flpCategory.Location = new Point(75, 230);
+            flpCategory.Name = "flpCategory";
+            flpCategory.Size = new Size(185, 229);
+            flpCategory.TabIndex = 41;
+            // 
+            // fileSystemWatcher1
+            // 
+            fileSystemWatcher1.EnableRaisingEvents = true;
+            fileSystemWatcher1.SynchronizingObject = this;
             // 
             // SpendingPage
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            Controls.Add(flowExpenseName);
+            Controls.Add(flpCategory);
             Controls.Add(label5);
             Controls.Add(label1);
             Controls.Add(panel3);
-            Controls.Add(textBox3);
+            Controls.Add(txtNote);
             Controls.Add(label4);
-            Controls.Add(button1);
+            Controls.Add(BtnOK);
             Controls.Add(label3);
             Controls.Add(dateTimePicker1);
             Controls.Add(label2);
-            Controls.Add(textBox2);
+            Controls.Add(txtAmount);
             Name = "SpendingPage";
             Size = new Size(694, 531);
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -202,16 +212,17 @@
 
         private Label label1;
         private Panel panel3;
-        private RadioButton radioButton2;
-        private RadioButton radioButton1;
-        private TextBox textBox3;
+        private RadioButton rdoExpense;
+        private RadioButton rdoIncome;
+        private TextBox txtNote;
         private Label label4;
-        private Button button1;
+        private Button BtnOK;
         private Label label3;
         private DateTimePicker dateTimePicker1;
         private Label label2;
-        private TextBox textBox2;
+        private TextBox txtAmount;
         private Label label5;
-        private FlowLayoutPanel flowExpenseName;
+        private FlowLayoutPanel flpCategory;
+        private FileSystemWatcher fileSystemWatcher1;
     }
 }

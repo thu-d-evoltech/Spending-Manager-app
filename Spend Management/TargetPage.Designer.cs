@@ -42,7 +42,7 @@
             lblMaxSpending = new Label();
             panel1 = new Panel();
             txtExpenseAmount = new TextBox();
-            txtExpenseName = new TextBox();
+            txtExpenseCategory = new TextBox();
             label2 = new Label();
             label1 = new Label();
             btnSubmit = new Button();
@@ -166,7 +166,7 @@
             // panel1
             // 
             panel1.Controls.Add(txtExpenseAmount);
-            panel1.Controls.Add(txtExpenseName);
+            panel1.Controls.Add(txtExpenseCategory);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
             panel1.Controls.Add(btnDeleteItem);
@@ -184,12 +184,12 @@
             txtExpenseAmount.Size = new Size(155, 23);
             txtExpenseAmount.TabIndex = 14;
             // 
-            // txtExpenseName
+            // txtExpenseCategory
             // 
-            txtExpenseName.Location = new Point(80, 25);
-            txtExpenseName.Name = "txtExpenseName";
-            txtExpenseName.Size = new Size(155, 23);
-            txtExpenseName.TabIndex = 13;
+            txtExpenseCategory.Location = new Point(80, 25);
+            txtExpenseCategory.Name = "txtExpenseCategory";
+            txtExpenseCategory.Size = new Size(155, 23);
+            txtExpenseCategory.TabIndex = 13;
             // 
             // label2
             // 
@@ -261,7 +261,7 @@
         private Label lblMaxSpending;
         private Panel panel1;
         private TextBox txtExpenseAmount;
-        private TextBox txtExpenseName;
+        private TextBox txtExpenseCategory;
         private Label label2;
         private Label label1;
         private ColumnHeader columnName;

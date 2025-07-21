@@ -5,6 +5,7 @@
         private TargetPage targetPage;
         private HomePage homePage;
         private SpendingPage spendingPage;
+        private ReportPage reportPage;
 
         /// <summary>
         /// Khởi tạo Constructor của MainForm
@@ -15,8 +16,10 @@
             targetPage = new TargetPage();
             homePage = new HomePage();
             spendingPage = new SpendingPage();
+            reportPage = new ReportPage();
 
             targetPage.DataSubmitted += TargetPage_DataSubmitted;
+            spendingPage.DataSubmitted += SpendingPage_DataSubmitted;
             this.Shown += MainForm_Shown;
         }
 
@@ -42,8 +45,11 @@
             homePage.LoadSummaryData();
             spendingPage.LoadData();
         }
+        private void SpendingPage_DataSubmitted(object sender, EventArgs e)
+        { 
+        }
 
-        bool isCollapsing = false;
+            bool isCollapsing = false;
 
         private void btnToggleMenu_Click(object sender, EventArgs e)
         {
@@ -100,7 +106,7 @@
 
         private void btnReport_Click(object sender, EventArgs e)
         {
-            LoadPage(new ReportPage());
+            LoadPage(reportPage);
         }
 
         private void btnLogout_Click(object sender, EventArgs e)
