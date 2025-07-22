@@ -1,33 +1,42 @@
-﻿namespace Spend_Management
+﻿using System.Data.SQLite;
+using System.Windows.Forms;
+
+namespace Spend_Management
 {
     public partial class SpendingPage : UserControl
     {
-        private BudgetManager budgetManager;
+        private TargetSetting targetSetting;
         private int currentUserId;
         public event EventHandler DataSubmitted;
 
         public SpendingPage()
         {
             InitializeComponent();
-            budgetManager = new BudgetManager("Data Source=spend_data.db");
+            targetSetting = new TargetSetting("Data Source=expense_data.db");
             currentUserId = Session.CurrentUserId;
-            LoadData();
+            LoadCategories();
         }
 
-        public void LoadData()
+        public void LoadCategories()
         {
             // Lấy danh sách chi tiêu từ database
-            var expenses = budgetManager.GetAllExpenses(currentUserId);
+            var budgets = targetSetting.GetAllBudgets(currentUserId);
 
-            // Xóa tất cả control cũ trong FlowLayoutPanel
+            // Lấy danh sách category duy nhất
+            var categories = budgets
+                 .GroupBy(b => new { b.CategoryId, b.Name })
+                 .Select(g => new { CategoryId = g.Key.CategoryId, Name = g.Key.Name })
+                 .ToList();
+
+            // Xóa tất cả control cũ trong ListBox
             flpCategory.Controls.Clear();
 
             // Tạo RadioButton cho từng mục chi tiêu
-            foreach (var expense in expenses)
+            foreach (var category in categories)
             {
                 var radio = new RadioButton();
-                radio.Text = expense.Category;       // Hiển thị tên chi tiêu
-                radio.Tag = expense;             // Lưu toàn bộ đối tượng nếu cần dùng sau
+                radio.Text = category.Name;   // Hiển thị tên chi tiêu
+                radio.Tag = category.CategoryId;
                 radio.AutoSize = true;
                 radio.Margin = new Padding(5);   // Tạo khoảng cách cho đẹp
 
@@ -35,47 +44,81 @@
             }
         }
 
+        private void InsertTransaction(TransactionItem transaction)
+        {
+            using var connection = new SQLiteConnection("Data Source=expense_data.db");
+            connection.Open();
+
+            string insert = @"
+                INSERT INTO Transactions 
+                (UserId, CategoryId, Amount, Type, Note, Date)
+                VALUES (@userId, @categoryId, @amount, @type, @note, @date);
+            ";
+
+            using var cmd = new SQLiteCommand(insert, connection);
+            cmd.Parameters.AddWithValue("@userId", transaction.UserId);
+            cmd.Parameters.AddWithValue("@categoryId", transaction.CategoryId);
+            cmd.Parameters.AddWithValue("@amount", transaction.Amount);
+            cmd.Parameters.AddWithValue("@type", transaction.Type); 
+            cmd.Parameters.AddWithValue("@note", transaction.Note ?? "");
+            cmd.Parameters.AddWithValue("@date", transaction.Date.ToString("yyyy-MM-dd"));
+
+            cmd.ExecuteNonQuery();
+        }
+
+
         private void BtnOK_Click(object sender, EventArgs e)
         {
-            string date = dateTimePicker1.Value.ToString("yyyy-MM-dd");
-            string category = flpCategory.Controls.OfType<RadioButton>().FirstOrDefault(r => r.Checked)?.Text;
-            string amountText = txtAmount.Text.Trim();
-            string type = rdoIncome.Checked ? "入金" : (rdoExpense.Checked ? "出金" : "");
-            string note = txtNote.Text.Trim();
+            var checkedRadio = flpCategory.Controls
+                       .OfType<RadioButton>()
+                       .FirstOrDefault(r => r.Checked);
 
-            // 2. Kiểm tra đầu vào
-            if (string.IsNullOrEmpty(type) || string.IsNullOrEmpty(category) || string.IsNullOrEmpty(amountText))
+            int selectedCategoryId = (int)checkedRadio.Tag;
+
+            string type = radioButtonIncome.Checked ? "入金" : "出金";
+
+            if (!double.TryParse(txtAmount.Text, out double amount))
             {
-                MessageBox.Show("すべての項目を入力してください。");
+                MessageBox.Show("金額が正しくありません。");
                 return;
             }
 
-            if (!decimal.TryParse(amountText, out decimal amount))
+            var transaction = new TransactionItem
             {
-                MessageBox.Show("金額は数字で入力してください。");
-                return;
-            }
-
-            // 3. Lưu vào DB
-            var expense = new ExpenseItem
-            {
-                UserId = currentUserId, 
-                Category = category,
+                UserId = currentUserId,                     // Giả sử bạn lưu userId hiện tại
+                CategoryId = selectedCategoryId,
                 Amount = amount,
+                Type = type,
+                Note = txtNote.Text,
+                Date = dateTimePicker.Value
             };
 
-            budgetManager.AddExpense(expense);
+            InsertTransaction(transaction);
+            MessageBox.Show("登録が完了しました！");
 
-            // Event khi nhấn OK
-            DataSubmitted?.Invoke(this, EventArgs.Empty);
-
-            // Xóa form
+            //Clear dữ liệu đã nhập
             txtAmount.Clear();
             txtNote.Clear();
-            rdoIncome.Checked = false;
-            rdoExpense.Checked = false;
-            foreach (RadioButton r in flpCategory.Controls.OfType<RadioButton>())
-                r.Checked = false;
+            dateTimePicker.Value = DateTime.Now;
+            radioButtonIncome.Checked = false;
+            radioButtonExpense.Checked = false;
+            foreach (Control control in flpCategory.Controls)
+            {
+                if (control is RadioButton rb)
+                {
+                    rb.Checked = false;
+                }
+            }
         }
+    }
+
+    public class TransactionItem
+    {
+        public int UserId { get; set; }
+        public int CategoryId { get; set; }
+        public double Amount { get; set; }
+        public string Type { get; set; } 
+        public string Note { get; set; }
+        public DateTime Date { get; set; }
     }
 }

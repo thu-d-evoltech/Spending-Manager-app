@@ -30,18 +30,18 @@
         {
             label1 = new Label();
             panel3 = new Panel();
-            rdoExpense = new RadioButton();
-            rdoIncome = new RadioButton();
+            radioButtonExpense = new RadioButton();
+            radioButtonIncome = new RadioButton();
             txtNote = new TextBox();
             label4 = new Label();
             BtnOK = new Button();
             label3 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            dateTimePicker = new DateTimePicker();
             label2 = new Label();
             txtAmount = new TextBox();
             label5 = new Label();
-            flpCategory = new FlowLayoutPanel();
             fileSystemWatcher1 = new FileSystemWatcher();
+            flpCategory = new FlowLayoutPanel();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
@@ -58,36 +58,36 @@
             // panel3
             // 
             panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(rdoExpense);
-            panel3.Controls.Add(rdoIncome);
+            panel3.Controls.Add(radioButtonExpense);
+            panel3.Controls.Add(radioButtonIncome);
             panel3.Location = new Point(75, 97);
             panel3.Name = "panel3";
             panel3.Size = new Size(185, 74);
             panel3.TabIndex = 38;
             // 
-            // rdoExpense
+            // radioButtonExpense
             // 
-            rdoExpense.AutoSize = true;
-            rdoExpense.Font = new Font("Yu Gothic UI", 12F);
-            rdoExpense.Location = new Point(18, 36);
-            rdoExpense.Name = "rdoExpense";
-            rdoExpense.Size = new Size(60, 25);
-            rdoExpense.TabIndex = 1;
-            rdoExpense.TabStop = true;
-            rdoExpense.Text = "出金";
-            rdoExpense.UseVisualStyleBackColor = true;
+            radioButtonExpense.AutoSize = true;
+            radioButtonExpense.Font = new Font("Yu Gothic UI", 12F);
+            radioButtonExpense.Location = new Point(18, 36);
+            radioButtonExpense.Name = "radioButtonExpense";
+            radioButtonExpense.Size = new Size(60, 25);
+            radioButtonExpense.TabIndex = 1;
+            radioButtonExpense.TabStop = true;
+            radioButtonExpense.Text = "出金";
+            radioButtonExpense.UseVisualStyleBackColor = true;
             // 
-            // rdoIncome
+            // radioButtonIncome
             // 
-            rdoIncome.AutoSize = true;
-            rdoIncome.Font = new Font("Yu Gothic UI", 12F);
-            rdoIncome.Location = new Point(18, 11);
-            rdoIncome.Name = "rdoIncome";
-            rdoIncome.Size = new Size(60, 25);
-            rdoIncome.TabIndex = 0;
-            rdoIncome.TabStop = true;
-            rdoIncome.Text = "入金";
-            rdoIncome.UseVisualStyleBackColor = true;
+            radioButtonIncome.AutoSize = true;
+            radioButtonIncome.Font = new Font("Yu Gothic UI", 12F);
+            radioButtonIncome.Location = new Point(18, 11);
+            radioButtonIncome.Name = "radioButtonIncome";
+            radioButtonIncome.Size = new Size(60, 25);
+            radioButtonIncome.TabIndex = 0;
+            radioButtonIncome.TabStop = true;
+            radioButtonIncome.Text = "入金";
+            radioButtonIncome.UseVisualStyleBackColor = true;
             // 
             // txtNote
             // 
@@ -130,14 +130,14 @@
             label3.TabIndex = 33;
             label3.Text = "時点";
             // 
-            // dateTimePicker1
+            // dateTimePicker
             // 
-            dateTimePicker1.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
-            dateTimePicker1.Location = new Point(405, 225);
-            dateTimePicker1.Margin = new Padding(3, 2, 3, 2);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(210, 29);
-            dateTimePicker1.TabIndex = 32;
+            dateTimePicker.Font = new Font("Yu Gothic UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 128);
+            dateTimePicker.Location = new Point(405, 225);
+            dateTimePicker.Margin = new Padding(3, 2, 3, 2);
+            dateTimePicker.Name = "dateTimePicker";
+            dateTimePicker.Size = new Size(210, 29);
+            dateTimePicker.TabIndex = 32;
             // 
             // label2
             // 
@@ -167,21 +167,19 @@
             label5.Size = new Size(0, 15);
             label5.TabIndex = 40;
             // 
-            // flpCategory
-            // 
-            flpCategory.AutoScroll = true;
-            flpCategory.BorderStyle = BorderStyle.FixedSingle;
-            flpCategory.FlowDirection = FlowDirection.TopDown;
-            flpCategory.Font = new Font("Yu Gothic UI", 12F);
-            flpCategory.Location = new Point(75, 230);
-            flpCategory.Name = "flpCategory";
-            flpCategory.Size = new Size(185, 229);
-            flpCategory.TabIndex = 41;
-            // 
             // fileSystemWatcher1
             // 
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
+            // 
+            // flpCategory
+            // 
+            flpCategory.BorderStyle = BorderStyle.FixedSingle;
+            flpCategory.FlowDirection = FlowDirection.TopDown;
+            flpCategory.Location = new Point(75, 230);
+            flpCategory.Name = "flpCategory";
+            flpCategory.Size = new Size(185, 249);
+            flpCategory.TabIndex = 43;
             // 
             // SpendingPage
             // 
@@ -196,7 +194,7 @@
             Controls.Add(label4);
             Controls.Add(BtnOK);
             Controls.Add(label3);
-            Controls.Add(dateTimePicker1);
+            Controls.Add(dateTimePicker);
             Controls.Add(label2);
             Controls.Add(txtAmount);
             Name = "SpendingPage";
@@ -212,17 +210,17 @@
 
         private Label label1;
         private Panel panel3;
-        private RadioButton rdoExpense;
-        private RadioButton rdoIncome;
+        private RadioButton radioButtonExpense;
+        private RadioButton radioButtonIncome;
         private TextBox txtNote;
         private Label label4;
         private Button BtnOK;
         private Label label3;
-        private DateTimePicker dateTimePicker1;
+        private DateTimePicker dateTimePicker;
         private Label label2;
         private TextBox txtAmount;
         private Label label5;
-        private FlowLayoutPanel flpCategory;
         private FileSystemWatcher fileSystemWatcher1;
+        private FlowLayoutPanel flpCategory;
     }
 }
