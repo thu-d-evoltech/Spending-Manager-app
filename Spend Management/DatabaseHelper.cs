@@ -2,56 +2,64 @@
 
 namespace Spend_Management
 {
-    public class DatabaseHelper
+    public static class DatabaseHelper
     {
-        public void InitializeDatabase()
+        private static string dbPath = "expense_data.db";
+
+        public static SQLiteConnection GetConnection()
         {
-            using (var connection = new SQLiteConnection("Data Source=expense_data.db"))
+            return new SQLiteConnection($"Data Source={dbPath};Version=3;");
+        }
+        public static void InitializeDatabase()
+        {
+            if (!File.Exists(dbPath))
+            {
+                SQLiteConnection.CreateFile(dbPath);
+            }
+            using (var connection = GetConnection())
             {
                 connection.Open();
                 var command = connection.CreateCommand();
 
                 command.CommandText = @"
                 CREATE TABLE IF NOT EXISTS Users (
-                    UserId INTEGER PRIMARY KEY AUTOINCREMENT, 
+                    UserId INTEGER PRIMARY KEY, 
                     username TEXT UNIQUE, 
                     password TEXT
                 );
                 
                 CREATE TABLE IF NOT EXISTS Categories (
-                    CategoryId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    CategoryId INTEGER PRIMARY KEY,
                     UserId INTEGER NOT NULL,
                     Name TEXT NOT NULL,
-                    Type TEXT NOT NULL CHECK (Type IN ('income', 'expense')),
                     FOREIGN KEY (UserId) REFERENCES Users(UserId)
                 );
 
-                CREATE TABLE IF NOT EXISTS Accounts (
-                    AccountId INTEGER PRIMARY KEY AUTOINCREMENT,
-                    UserId INTEGER NOT NULL,
-                    Name TEXT NOT NULL,
-                    Balance REAL DEFAULT 0,
-                    FOREIGN KEY(UserId) REFERENCES Users(UserId)
-                );
-
                 CREATE TABLE IF NOT EXISTS Transactions (
-                    TransactionId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    TransactionId INTEGER PRIMARY KEY,
                     UserId INTEGER NOT NULL,
-                    CategoryId INTEGER NOT NULL,
-                    AccountId INTEGER NOT NULL,
+                    CategoryId INTEGER,
                     Amount REAL NOT NULL,
+                    Type TEXT CHECK (Type IN ('入金', '出金')),
                     Note TEXT,
                     Date TEXT NOT NULL,
                     FOREIGN KEY(UserId) REFERENCES Users(UserId),
                     FOREIGN KEY(CategoryId) REFERENCES Categories(CategoryId)
-                    FOREIGN KEY(AccountId) REFERENCES Accounts(AccountId)
+                );
+
+                CREATE TABLE IF NOT EXISTS FinancialGoals (
+                    GoalId INTEGER PRIMARY KEY,
+                    UserId INTEGER NOT NULL,
+                    Income REAL NOT NULL,
+                    SavingTarget REAL NOT NULL,
+                    FOREIGN KEY (UserId) REFERENCES Users(UserId),
+                    UNIQUE (UserId)
                 );
 
                 CREATE TABLE IF NOT EXISTS Budgets (
-                    BudgetId INTEGER PRIMARY KEY AUTOINCREMENT,
+                    BudgetId INTEGER PRIMARY KEY,
                     UserId INTEGER NOT NULL,
                     CategoryId INTEGER NOT NULL,
-                    Month TEXT NOT NULL,
                     Amount REAL NOT NULL,
                     FOREIGN KEY(UserId) REFERENCES Users(UserId),
                     FOREIGN KEY(CategoryId) REFERENCES Categories(CategoryId)
@@ -60,5 +68,23 @@ namespace Spend_Management
                 command.ExecuteNonQuery();
             }
         }
+        /*public static void PrintAllTables()
+        {
+            using (var connection = new SQLiteConnection("Data Source=expense_data.db"))
+            {
+                connection.Open();
+
+                using var cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT name FROM sqlite_master WHERE type='table';";
+
+                using var reader = cmd.ExecuteReader();
+                MessageBox.Show("📋 Tables in this DB:");
+                while (reader.Read())
+                {
+                    MessageBox.Show("   - " + reader.GetString(0));
+                }
+            }
+        }*/
+
     }
 }
