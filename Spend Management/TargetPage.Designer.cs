@@ -237,6 +237,7 @@
             Controls.Add(txtTotal);
             Controls.Add(lblSavingGoal);
             Controls.Add(lblTotal);
+            ForeColor = Color.Black;
             Margin = new Padding(3, 2, 3, 2);
             Name = "TargetPage";
             Size = new Size(694, 531);

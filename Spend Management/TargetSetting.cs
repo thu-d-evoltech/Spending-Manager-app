@@ -13,27 +13,23 @@ namespace Spend_Management
         /// </summary>
         public TargetSetting(string dbPath)
         {
-            connectionString = $"Data Source={dbPath};Version=3;";
+            connectionString = $"Data Source=expense_data.db;Version=3;";
         }
-        public void SaveTargetSettings(int userId, decimal income, decimal saving, decimal spending)
+        public void SaveTargetSettings(int userId, decimal income, decimal saving)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string currentMonth = DateTime.Now.ToString("yyyy-MM");
-
             string upsert = @"
-            INSERT INTO FinancialGoals (UserId, Month, Income, SavingTarget, SpendingAvailable)
-            VALUES (@userId, @month, @income, @saving, @spending)
-            ON CONFLICT(UserId, Month) DO UPDATE SET Income = @income, Saving = @saving, SpendingAvailable = @spending;";
+            INSERT INTO FinancialGoals (UserId, Income, SavingTarget)
+            VALUES (@userId, @income, @saving)
+            ON CONFLICT(UserId) DO UPDATE SET Income = @income, SavingTarget = @saving;";
 
             using var cmd = new SQLiteCommand(upsert, connection);
 
             cmd.Parameters.AddWithValue("@userId", userId);
-            cmd.Parameters.AddWithValue("@month", currentMonth);
             cmd.Parameters.AddWithValue("@income", income);
             cmd.Parameters.AddWithValue("@saving", saving);
-            cmd.Parameters.AddWithValue("@spending", spending);
 
             cmd.ExecuteNonQuery();
         }
@@ -43,76 +39,107 @@ namespace Spend_Management
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string select = "SELECT Income, Saving FROM BudgetSettings WHERE UserId = @userId;";
+            string select = @"SELECT Income, SavingTarget
+                                FROM FinancialGoals
+                                WHERE UserId = @userId;";
+
             using var cmd = new SQLiteCommand(select, connection);
             cmd.Parameters.AddWithValue("@userId", userId);
+
             using var reader = cmd.ExecuteReader();
 
             if (reader.Read())
             {
-                return ((decimal)(double)reader[0], (decimal)(double)reader[1]);
+                return (
+                    (decimal)(double)reader["Income"], 
+                    (decimal)(double)reader["SavingTarget"]
+                );
             }
             return (0, 0);
         }
 
-        public void AddExpense(ExpenseItem expenseItem)
+        public void AddBudgets(BudgetItem budgetItem)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string insert = "INSERT INTO Expenses (UserId, Category, Amount) VALUES (@userId, @category, @amount);";
-            using var cmd = new SQLiteCommand(insert, connection);
-            cmd.Parameters.AddWithValue("@userId", expenseItem.UserId);
-            cmd.Parameters.AddWithValue("@name", expenseItem.Category);
-            cmd.Parameters.AddWithValue("@amount", expenseItem.Amount);
-            cmd.ExecuteNonQuery();
+            string insertCategory = "INSERT INTO Categories (UserId, Name) VALUES (@userId, @name);";
+            using var cmd1 = new SQLiteCommand(insertCategory, connection);
+            cmd1.Parameters.AddWithValue("@userId", budgetItem.UserId);
+            cmd1.Parameters.AddWithValue("@name", budgetItem.Name);
+            cmd1.ExecuteNonQuery();
+
+            // 2. Lấy CategoryId vừa thêm
+            string getCategoryId = "SELECT last_insert_rowid();";
+            using var cmdGetId = new SQLiteCommand(getCategoryId, connection);
+            long categoryId = (long)cmdGetId.ExecuteScalar();
+
+            string insertBudget = @"
+                INSERT INTO Budgets (UserId, CategoryId, Amount) 
+                VALUES (@userId, @categoryId, @amount);
+            ";
+            using var cmd2 = new SQLiteCommand(insertBudget, connection);
+            cmd2.Parameters.AddWithValue("@userId", budgetItem.UserId);
+            cmd2.Parameters.AddWithValue("@categoryId", categoryId); // phải có CategoryId
+            cmd2.Parameters.AddWithValue("@amount", budgetItem.Amount);
+            cmd2.ExecuteNonQuery();
         }
 
-        public void UpdateExpense(ExpenseItem expenseItem)
+        public void UpdateExpense(BudgetItem budgetItem)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string update = "UPDATE Expenses SET Category = @category, Amount = @amount WHERE Id = @id AND UserId = @userId;";
+            string update = @"
+                UPDATE Budgets
+                SET CategoryId = @categoryId, Amount = @amount
+                WHERE BudgetId = @budgetId AND UserId = @userId;
+            ";
             using var cmd = new SQLiteCommand(update, connection);
-            cmd.Parameters.AddWithValue("@name", expenseItem.Category);
-            cmd.Parameters.AddWithValue("@amount", expenseItem.Amount);
-            cmd.Parameters.AddWithValue("@id", expenseItem.Id);
-            cmd.Parameters.AddWithValue("@userId", expenseItem.UserId);
+            cmd.Parameters.AddWithValue("@categoryId", budgetItem.CategoryId);
+            cmd.Parameters.AddWithValue("@amount", budgetItem.Amount);
+            cmd.Parameters.AddWithValue("@budgetId", budgetItem.BudgetId);
+            cmd.Parameters.AddWithValue("@userId", budgetItem.UserId);
             cmd.ExecuteNonQuery();
         }
 
-        public void DeleteExpense(ExpenseItem expenseItem)
+        public void DeleteExpense(BudgetItem budgetItem)
         {
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string delete = "DELETE FROM Expenses WHERE Id = @id AND UserId = @userId;";
+            string delete = "DELETE FROM Budgets WHERE BudgetId = @budgetId AND UserId = @userId;";
             using var cmd = new SQLiteCommand(delete, connection);
-            cmd.Parameters.AddWithValue("@id", expenseItem.Id);
-            cmd.Parameters.AddWithValue("@userId", expenseItem.UserId);
+            cmd.Parameters.AddWithValue("@budgetId", budgetItem.BudgetId);
+            cmd.Parameters.AddWithValue("@userId", budgetItem.UserId);
             cmd.ExecuteNonQuery();
         }
 
-        public List<ExpenseItem> GetAllExpenses(int userId)
+        public List<BudgetItem> GetAllBudgets(int userId)
         {
-            var list = new List<ExpenseItem>();
+            var list = new List<BudgetItem>();
 
             using var connection = new SQLiteConnection(connectionString);
             connection.Open();
 
-            string select = "SELECT Id, Category, Amount FROM Expenses WHERE UserId = @userId;";
+            string select = @"
+                SELECT b.BudgetId, b.CategoryId, c.Name AS CategoryName, b.Amount
+                FROM Budgets b
+                INNER JOIN Categories c ON b.CategoryId = c.CategoryId
+                WHERE b.UserId = @userId;
+            ";
             using var cmd = new SQLiteCommand(select, connection);
             cmd.Parameters.AddWithValue("@userId", userId);
             using var reader = cmd.ExecuteReader();
 
             while (reader.Read())
             {
-                list.Add(new ExpenseItem
+                list.Add(new BudgetItem
                 {
-                    Id = Convert.ToInt32(reader[0]),
-                    Category = reader[1].ToString(),
-                    Amount = (decimal)(double)reader[2],
+                    BudgetId = Convert.ToInt32(reader["BudgetId"]),
+                    CategoryId = Convert.ToInt32(reader["CategoryId"]),
+                    Name = reader["CategoryName"].ToString(),
+                    Amount = Convert.ToDecimal(reader["Amount"]),
                     UserId = userId
                 });;
             }
@@ -121,12 +148,12 @@ namespace Spend_Management
         }
     }
 
-    public class ExpenseItem
+    public class BudgetItem
     {
         public int BudgetId { get; set; }
         public int UserId { get; set; }
-        public int CategoryId { get; set; }
-        public string Month { get; set; }
+        public int CategoryId { get; set; }  // thêm trường này
+        public string Name { get; set; } // tên category, để hiển thị
         public decimal Amount { get; set; }
     }
 }

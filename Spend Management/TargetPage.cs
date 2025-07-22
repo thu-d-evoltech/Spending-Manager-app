@@ -4,7 +4,7 @@ namespace Spend_Management
 {
     public partial class TargetPage : UserControl
     {
-        private BudgetManager budgetManager;
+        private TargetSetting targetSetting;
         private int currentUserId;
         // Khai báo event
         public event EventHandler DataSubmitted;
@@ -12,8 +12,7 @@ namespace Spend_Management
         public TargetPage()
         {
             InitializeComponent();
-            budgetManager = new BudgetManager("Data Source=spend_data.db");
-            budgetManager.InitializeDatabase();
+            targetSetting = new TargetSetting("Data Source=expense_data.db");
             currentUserId = Session.CurrentUserId;
         }
 
@@ -30,7 +29,7 @@ namespace Spend_Management
 
         private void LoadBudgetData()
         {
-            var (income, saving) = budgetManager.ReadBudgetSettings(currentUserId);
+            var (income, saving) = targetSetting.ReadTargetSettings(currentUserId);
             txtTotal.Text = income.ToString();
             txtSavingGoal.Text = saving.ToString();
             lblMaxSpending.Text = $"{(income - saving):C}";
@@ -42,7 +41,7 @@ namespace Spend_Management
                 decimal.TryParse(txtSavingGoal.Text, out decimal saving))
             {
                 lblMaxSpending.Text = $"{(income - saving):C}";
-                budgetManager.SaveBudgetSettings(currentUserId, income, saving);
+                targetSetting.SaveTargetSettings(currentUserId, income, saving);
             }
         }
 
@@ -59,10 +58,11 @@ namespace Spend_Management
         private void LoadExpenses()
         {
             listViewExpense.Items.Clear();
-            var expenses = budgetManager.GetAllExpenses(currentUserId);
+            var expenses = targetSetting.GetAllBudgets(currentUserId);
+
             foreach (var expense in expenses)
             {
-                var item = new ListViewItem(expense.Category);
+                var item = new ListViewItem(expense.Name);
                 item.SubItems.Add(expense.Amount.ToString("N0"));
                 item.Tag = expense;
                 listViewExpense.Items.Add(item);
@@ -78,14 +78,14 @@ namespace Spend_Management
                 return;
             }
 
-            var expense = new ExpenseItem
+            var expense = new BudgetItem
             {
-                Category = txtExpenseCategory.Text,
+                Name = txtExpenseCategory.Text,
                 Amount = amount,
                 UserId = currentUserId,
             };
 
-            budgetManager.AddExpense(expense);
+            targetSetting.AddBudgets(expense);
             LoadExpenses();
 
             txtExpenseCategory.Clear();
@@ -98,7 +98,7 @@ namespace Spend_Management
 
             var selectedItem = listViewExpense.SelectedItems[0];
             var oldName = selectedItem.Name;
-            var expense = (ExpenseItem)selectedItem.Tag;
+            var expense = (BudgetItem)selectedItem.Tag;
 
             if (!decimal.TryParse(txtExpenseAmount.Text, out decimal newAmount))
             {
@@ -109,7 +109,7 @@ namespace Spend_Management
             txtExpenseCategory.Text = oldName;
             expense.Amount = newAmount;
 
-            budgetManager.UpdateExpense(expense);
+            targetSetting.UpdateExpense(expense);
             LoadExpenses();
 
             txtExpenseCategory.Clear();
@@ -121,12 +121,12 @@ namespace Spend_Management
             if (listViewExpense.SelectedItems.Count == 0) return;
 
             var selectedItem = listViewExpense.SelectedItems[0];
-            var expense = (ExpenseItem)selectedItem.Tag;
+            var expense = (BudgetItem)selectedItem.Tag;
 
             var result = MessageBox.Show("この項目を削除してもよろしいですか?", "確認", MessageBoxButtons.YesNo);
             if (result == DialogResult.Yes)
             {
-                budgetManager.DeleteExpense(expense);
+                targetSetting.DeleteExpense(expense);
                 LoadExpenses();
             }
         }
