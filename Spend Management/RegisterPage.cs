@@ -21,7 +21,7 @@ namespace Spend_Management
             }
 
             //Kết nối và sử dụng Database
-            using (var connection = new SQLiteConnection("Data Source=spend_data.db;Version=3;"))
+            using (var connection = new SQLiteConnection("Data Source=expense_data.db;Version=3;"))
             {
                 connection.Open();
 

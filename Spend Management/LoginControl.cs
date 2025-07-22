@@ -15,17 +15,8 @@ namespace Spend_Management
 
         private void InitDatabase()
         {
-            connection = new SQLiteConnection("Data Source=spend_data.db;Version=3;");
+            connection = new SQLiteConnection("Data Source=expense_data.db;Version=3;");
             connection.Open();
-
-            string createUserTable = @"
-                CREATE TABLE IF NOT EXISTS users (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT, 
-                    username TEXT UNIQUE, 
-                    password TEXT
-                );";
-            SQLiteCommand cmd = new SQLiteCommand(createUserTable, connection);
-            cmd.ExecuteNonQuery();
 
             string checkUser = "SELECT COUNT(*) FROM users WHERE username = 'admin';";
             SQLiteCommand checkCmd = new SQLiteCommand(checkUser, connection);
@@ -56,7 +47,7 @@ namespace Spend_Management
             string user = txtUsername.Text.Trim();
             string pass = txtPassword.Text.Trim();
 
-            string query = "SELECT id FROM users WHERE username = @user AND password = @pass;";
+            string query = "SELECT UserId FROM users WHERE username = @user AND password = @pass;";
             SQLiteCommand cmd = new SQLiteCommand(query, connection);
             cmd.Parameters.AddWithValue("@user", user);
             cmd.Parameters.AddWithValue("@pass", pass);
