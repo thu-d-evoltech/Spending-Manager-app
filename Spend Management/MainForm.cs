@@ -4,7 +4,6 @@
     {
         private TargetPage targetPage;
         private HomePage homePage;
-        private SpendingPage spendingPage;
         private ReportPage reportPage;
 
         /// <summary>
@@ -15,11 +14,9 @@
             InitializeComponent();
             targetPage = new TargetPage();
             homePage = new HomePage();
-            spendingPage = new SpendingPage();
             reportPage = new ReportPage();
 
             targetPage.DataSubmitted += TargetPage_DataSubmitted;
-            spendingPage.DataSubmitted += SpendingPage_DataSubmitted;
             this.Shown += MainForm_Shown;
         }
 
@@ -31,7 +28,6 @@
         private void MainForm_Shown(object sender, EventArgs e)
         {
             homePage.LoadSummaryData();
-            spendingPage.LoadData();
         }
 
         /// <summary>
@@ -43,7 +39,6 @@
         {
             // Ví dụ: gọi HomePage load lại dữ liệu
             homePage.LoadSummaryData();
-            spendingPage.LoadData();
         }
         private void SpendingPage_DataSubmitted(object sender, EventArgs e)
         { 

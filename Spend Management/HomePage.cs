@@ -2,24 +2,26 @@
 {
     public partial class HomePage : UserControl
     {
-        private BudgetManager budgetManager;
+        private TargetSetting targetSetting;
         private int currentUserId;
+        
 
         public HomePage()
         {
             InitializeComponent();
-            budgetManager = new BudgetManager("Data Source=spend_data.db");
+            targetSetting = new TargetSetting("Data Source=expense_data.db");
             currentUserId = Session.CurrentUserId;
         }
 
         public void LoadSummaryData()
         {
             // 1. Đọc dữ liệu từ BudgetSettings
-            var (income, saving) = budgetManager.ReadBudgetSettings(currentUserId);
+            var (income, saving) = targetSetting.ReadTargetSettings(currentUserId);
             decimal maxSpending = income - saving;
 
             // 2. Lấy danh sách chi tiêu
-            var expenses = budgetManager.GetAllExpenses(currentUserId);
+            
+            var expenses = targetSetting.GetAllBudgets(currentUserId);
 
             // 3. Tính tổng chi tiêu
             decimal totalSpending = expenses.Sum(e => e.Amount);
@@ -31,7 +33,7 @@
             listViewSpending.Items.Clear();
             foreach (var expense in expenses)
             {
-                var item = new ListViewItem(expense.Category);
+                var item = new ListViewItem(expense.Name);
                 item.SubItems.Add(expense.Amount.ToString("N0"));
                 item.Tag = expense;
                 listViewSpending.Items.Add(item);
